@@ -31,6 +31,22 @@ app.use(session({
     },
 }));
 
+app.get('/setcookie',(req,res) => {
+    res.cookie('my cookie name','my cookie',{
+        maxAge:10000,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax'
+    })
+    res.send("Hola")
+})
+
+
+app.get('/getcookies',(req,res)=>{
+    console.log(req.cookies)
+    res.send('leyendo cookies')
+})
+
 
 app.use('/Route',Routes)
 

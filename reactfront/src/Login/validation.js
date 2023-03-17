@@ -1,14 +1,22 @@
 import React from "react";
 import { useState , useEffect } from 'react';
 import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 //const URI ="http://localhost:3001/Route"
 
 export const Verify = () =>{
     const[id, setid] = useState("")
+    const[id_Es, setid_Es] = useState("")
+    const[nombre, setNombre] = useState("")
     const[email,setemail] = useState("")
+    const[telefono, setTelefono] = useState("")
+    const[direccion, setDireccion] = useState("")
+    const[fecha_nacimiento, setFecha] = useState("")
+    const[carrera_id, setCarrera] = useState("")
     const[loginStatues, setLoginStatus] = useState("")
 
+    const history = useNavigate();
 
     Axios.defaults.withCredentials = true;
 
@@ -25,6 +33,17 @@ export const Verify = () =>{
                 setLoginStatus(response.data[0].id)
             }
         });
+
+        Axios.post("http://localhost:3001/Route/creaEstudi",{
+            id:id_Es,
+            nombre_e:nombre,
+            email:email,
+            telefono:telefono,
+            direccion:direccion,
+            fecha_nacimiento:fecha_nacimiento,
+            carrera_id:carrera_id
+        })
+
     };
 
     return(
@@ -37,17 +56,51 @@ export const Verify = () =>{
                 setid(e.target.value)
             }}/>
 
+            <h3>Id Estudiante</h3>
+            <input type="text" placeholder= "Id..."
+            onChange={(e) => {
+                setid_Es(e.target.value)
+            }}/>
+
+            <h3>Nombre</h3>
+            <input type="text" placeholder= "Nombre..."
+            onChange={(e) => {
+                setNombre(e.target.value)
+            }}/>
+
             <h3>Email</h3>
             <input type="text" placeholder= "Email..."
             onChange={(e) => {
                 setemail(e.target.value)
             }}/>
+
+            <h3>Telefono</h3>
+            <input type="text" placeholder= "Telefono..."
+            onChange={(e) => {
+                setTelefono(e.target.value)
+            }}/>
+
+            <h3>Direccion</h3>
+            <input type="text" placeholder= "Direccion..."
+            onChange={(e) => {
+                setDireccion(e.target.value)
+            }}/>
+
+            <h3>Fecha de nacimiento</h3>
+            <input type="text" placeholder= "aaaa-mm-dd..."
+            onChange={(e) => {
+                setFecha(e.target.value)
+            }}/>
+
+            <h3>Id Carrera</h3>
+            <input type="text" placeholder= "ID carrera..."
+            onChange={(e) => {
+                setCarrera(e.target.value)
+            }}/>
             
             <h3></h3>
             <button onClick={verify} className='btn btn-primary'>Confirmar</button>
             <h1>{loginStatues}</h1>
-            
-            
         </> 
     ) 
 }

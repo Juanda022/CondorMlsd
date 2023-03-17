@@ -3,7 +3,7 @@ import { DataTypes } from "sequelize"; //importamos sequelize
 
 const estudiante = db.define('estudiante',{
     id:{type: DataTypes.NUMBER, primaryKey:true},
-    nombre:{type: DataTypes.STRING},
+    nombre_e:{type: DataTypes.STRING},
     email:{type: DataTypes.STRING},
     telefono:{type: DataTypes.STRING},
     direccion:{type: DataTypes.STRING},

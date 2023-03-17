@@ -1,9 +1,8 @@
-import { response } from "express";
-import { and, where } from "sequelize";
 import UsuarioModel from "../models/UsuarioModel.js";
 
 
 import bcrypt from 'bcrypt';
+import { Op } from "sequelize";
 const saltRounds = 10;
 
 export const getAllUsuario = async (req,res) =>{
@@ -38,46 +37,20 @@ export const getUsuarioLoginCookies = async (req,res)=>{
 export const getUsuarioLogin = async (req,res)=>{
     try {
         const usuarioIn = await UsuarioModel.findAll({
-            where:{id:req.body.id, estado:req.estado = true}
-        })
-
-        const usuarioProf = await UsuarioModel.findAll({
-            where:{id:req.body.id, role:req.role = "admin"}
-        })
-
-        const usuarioEstu = await UsuarioModel.findAll({
-            where:{id:req.body.id, role:req.role = "user"}
+            where:{id:req.body.id, estado:req.estado = true,
+            [Op.or]:[
+                {role:"admin"},
+                {role: "user"}
+            ]}
         })
 
         if (usuarioIn.length > 0) {
-            if (usuarioEstu.length > 0) {
-                bcrypt.compare(req.body.password,usuarioIn[0].password,(error,response) =>{
-                    if(response){
-                        const Datos = req.session.user = usuarioIn[0].dataValues;
-                        console.log(Datos);
-                        console.log("Es estudiante");
-                        res.send(usuarioIn)
-                    }else{
-                        res.send({message: "Contraseña incorrecta o correo no validado"}) 
-                    }
-                })
-            } else if(usuarioProf.length > 0){
-                bcrypt.compare(req.body.password,usuarioIn[0].password,(error,response) =>{
-                    if(response){
-                        const Datos = req.session.user = usuarioIn[0].dataValues;
-                        console.log(Datos);
-                        res.send(usuarioIn)
-                    }else{
-                        res.send({message: "Contraseña incorrecta o correo no validado"}) 
-                    }
-                })
-            }
-                
-            
+            bcrypt.compare(req.body.password,usuarioIn[0].password,(error,response) =>{
+                {response?res.send(usuarioIn):res.send({message: "Contraseña incorrecta o correo no validado"})}
+            }) 
         } else {
             res.send({message: "No encontrado"}) 
         }
-        //res.json(usuarioIn[0])
     } catch (error) {
         res.json({message: error.message})
     }

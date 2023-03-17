@@ -1,9 +1,10 @@
 import express from "express";
-import { getTablaNotas } from "../controllers/ConsultaEstudiantes.js";
+import { getInfoEstudiante, getTablaNotas } from "../controllers/ConsultaEstudiantes.js";
+import { getTablaCursos, getTablaNotasC } from "../controllers/ConsultaProfesor.js";
 import { createEmail, deleteEmail, getAllEmail, getEmail, sendEmail1, updateEmail } from "../controllers/EmailController.js";
-import { getAllEstudiante, getEstudiante } from "../controllers/EstudianteController.js";
+import { createEstudiante, getAllEstudiante, getEstudiante } from "../controllers/EstudianteController.js";
+import { updateNota } from "../controllers/NotaController.js";
 import { confirmEmail, createUsuario, getAllUsuario, getUsuario, getUsuarioLogin, getUsuarioLoginCookies } from "../controllers/UsuarioController.js";
-import email from "../models/EmailModel.js";
 
 const router = express.Router()
 
@@ -14,10 +15,17 @@ router.get('/loginI/:id',getUsuario)
 router.post('/creaUsua',createUsuario)
 router.get('/allUsu',getAllUsuario)
 
-//Prueba consulta
+//Consulta vista estudiante
 router.get('/tabla/:email',getTablaNotas)
+router.get('/DataUser/:email',getInfoEstudiante)
 
 
+//Consulta vista Profesor
+router.get('/cursos/:email',getTablaCursos)
+router.get('/Notas/:email/:id',getTablaNotasC)
+
+//Modificar notas
+router.put('/UpNota/:id',updateNota)
 
 router.get('/getUsu/:id',getUsuario)
 
@@ -34,5 +42,7 @@ router.put('/verify/:id',confirmEmail)
 //Estudiante
 router.get('/allEstudi',getAllEstudiante)
 router.get('/Estudi/:id',getEstudiante)
+router.post('/creaEstudi',createEstudiante)
+//router.get('/setCookie', app.use)
 
 export default router

@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+section{
+  color: #282c34;
+  background-color: #E6F0F9;
+  height: 100vh;
+}
+
+.navBg{
+  background-color: darkgrey;
+}
+
+.DataUser{
+  float: left;
+  width: 250px;
+  height: 100vh;
+  color: aliceblue;
+  background-color: #282c34;
+}
+
+.pequeña{
+  width: 50px;
+  height: 50px;
+}

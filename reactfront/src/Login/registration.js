@@ -1,12 +1,19 @@
 import React from "react";
 import { useState } from 'react';
 import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export const Register = () =>{
     const[id, setid] = useState("")
     const[email,setemail] = useState("")
     const[password, setpassword] = useState("")
     const[registerStatues, setRegisterStatus] = useState("")
+
+    const history = useNavigate();
+
+    const login = () => {
+        history('/',{replace: true});
+    }
 
     const register = async () => {
         await Axios.post("http://localhost:3001/Route/creaEmail",{
@@ -53,6 +60,7 @@ export const Register = () =>{
             }}/>
             <h3></h3>
             <button onClick={register} className='btn btn-primary'>Register</button>
+            <button onClick={login} className='btn btn-primary'>Login</button>
             <h1>{registerStatues}</h1>
         </> 
     ) 
