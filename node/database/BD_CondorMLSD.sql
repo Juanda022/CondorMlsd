@@ -44,7 +44,7 @@ CREATE TABLE profesors (
 
 CREATE TABLE estudiantes (
   id INT PRIMARY KEY,
-  nombre VARCHAR(50) NOT NULL,
+  nombre_e VARCHAR(50) NOT NULL,
   email VARCHAR(50) UNIQUE NOT NULL,
   telefono VARCHAR(20) NOT NULL,
   direccion VARCHAR(100) NOT NULL,
@@ -93,6 +93,16 @@ CREATE TABLE cursos (
   FOREIGN KEY (sede_id) REFERENCES sedes(id)
 );
 
+CREATE TABLE inscripciones (
+id INT PRIMARY KEY,
+estudiante_id INT NOT NULL,
+curso_id INT NOT NULL,
+createdAt date default '0000-00-00',
+updatedAt date default '0000-00-00',
+FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id),
+FOREIGN KEY (curso_id) REFERENCES cursos(id)
+);
+
 CREATE TABLE notas (
   id INT PRIMARY KEY,
   estudiante_id INT NOT NULL,
@@ -128,77 +138,89 @@ INSERT INTO profesors (id, nombre, email, telefono, titulo) VALUES
 (1, 'Juan Perez', 'profesor1@universidad.com', '1234567', 'Doctorado en Ingeniería'),
 (2, 'Maria Gomez', 'profesor2@universidad.com', '7654321', 'Maestría en Administración');
 
-INSERT INTO estudiantes (id, nombre, email, telefono, direccion, fecha_nacimiento, carrera_id) VALUES
+INSERT INTO estudiantes (id, nombre_e, email, telefono, direccion, fecha_nacimiento, carrera_id) VALUES
 (1, 'Luisa Rodriguez', 'estudiante1@universidad.com', '1111111', 'Calle 15 #30-40', '2002-03-15', 1),
 (2, 'Andres Gomez', 'estudiante2@universidad.com', '2222222', 'Carrera 20 #25-30', '2001-01-20', 2);
 
 INSERT INTO usuarios (id, email, password) VALUES
-(1, 'estudiante1@universidad.com', 'contrasena1'),
-(2, 'estudiante2@universidad.com', 'contrasena2');
+(1, 'estudiante1@universidad.com', '$2b$10$.COHznhUqaTwyi7OAix1ou.uD6XSznTTz9dNx2kOO1g9Xuv1KU2y2'),
+(2, 'estudiante2@universidad.com', '$2b$10$.COHznhUqaTwyi7OAix1ou.uD6XSznTTz9dNx2kOO1g9Xuv1KU2y2');
 
 INSERT INTO asignaturas (id, nombre, codigo, creditos, carrera_id) VALUES
 (1, 'Programación I', 'PRG001', 3, 1),
 (2, 'Administración Financiera', 'AF001', 4, 2);
 
+INSERT INTO inscripciones (id, estudiante_id, curso_id) VALUES
+(1, 1, 1),
+(2, 2, 2);
+
 INSERT INTO cursos (id, nombre, profesor_id, asignatura_id, semestre_id, sede_id) VALUES
 (1, 'Programación I - Grupo 1', 1, 1, 1, 1),
-(2, 'Administración Financiera - Grupo 2', 2, 2, 2, 2);
+(2, 'Administración Financiera - Grupo 2', 2, 2, 2, 2),
+(3, 'Programación I - Grupo 2', 1, 1, 1, 1);
 
 INSERT INTO notas (id, estudiante_id, curso_id, nota) VALUES
 (1, 1, 1, 4.5),
-(2, 2, 2, 3.8);
+(2, 2, 2, 3.8),
+(3, 1, 2, 4.8),
+(4, 2, 1, 3.0);
+
 
 select * from emails;
 select * from estudiantes;
 select * from usuarios;
 select * from asignaturas;
 select * from notas;
+select * from cursos;
+select * from carreras;
+select * from profesors;
 
-select notas.id,nota from notas inner join estudiantes on estudiante_id = notas.id;
+/*Inscritos a un curso*/
+SELECT estudiantes.nombre_e, cursos.nombre
+FROM estudiantes
+JOIN inscripciones ON estudiantes.id = inscripciones.estudiante_id
+JOIN cursos ON cursos.id = inscripciones.curso_id
+WHERE cursos.nombre = 'Programación I - Grupo 1';
 
-select notas.id,notas.nota from notas join estudiantes on estudiante_id = notas.id join cursos on curso_id = cursos.id where notas.id = 1;
-
-SELECT n.id, a.nombre, n.nota
-FROM notas n
-JOIN cursos c ON n.curso_id = c.id
-JOIN asignaturas a ON c.asignatura_id = a.id where n.estudiante_id = 1;
-
-SELECT n.id, a.nombre as asignatura, e.nombre as estudiante, n.nota 
+/*Notas Estudiante*/
+SELECT n.id, a.nombre as asignatura, n.nota 
 FROM notas n 
 JOIN cursos c ON n.curso_id = c.id 
 JOIN asignaturas a ON c.asignatura_id = a.id 
 JOIN estudiantes e ON n.estudiante_id = e.id where e.email = "estudiante1@universidad.com";
 
-SELECT n.id, a.nombre as asignatura, e.nombre as estudiante, n.nota FROM notas n JOIN cursos c ON n.curso_id = c.id JOIN asignaturas a ON c.asignatura_id = a.id JOIN 
-estudiantes e ON n.estudiante_id = e.id where e.email = "estudiante1@universidad.com";
+/*Datos usuario*/
+SELECT estudiantes.id, estudiantes.nombre_e, carreras.nombre
+FROM estudiantes
+JOIN carreras ON estudiantes.carrera_id = carreras.id
+JOIN emails ON estudiantes.email = emails.email
+WHERE emails.email = 'estudiante1@universidad.com';
 
+-- Consulta Profesor
+/*Editar las notas*/
+SELECT notas.id, asignaturas.nombre AS asignatura, estudiantes.nombre_e AS estudiante, notas.nota
+FROM notas
+JOIN cursos ON notas.curso_id = cursos.id
+JOIN profesors ON cursos.profesor_id = profesors.id
+JOIN asignaturas ON cursos.asignatura_id = asignaturas.id
+JOIN estudiantes ON notas.estudiante_id = estudiantes.id
+WHERE profesors.email = 'profesor1@universidad.com' and cursos.id = 3;
 
-insert into usuarios(id,email,password) values(3,'profesor1@universidad.com','contra');
-delete from usuarios where id = 4;
+/*Cursos asignados*/
+SELECT cursos.id,cursos.nombre as nombre_curso
+FROM cursos
+JOIN profesors ON cursos.profesor_id = profesors.id
+JOIN emails ON profesors.email = emails.email
+WHERE emails.email = 'profesor1@universidad.com';
+
+delete from usuarios where id = 1;
+delete from estudiantes where id = 10255;
 delete from emails where email = "robayotorres05@gmail.com";
 
-
 INSERT INTO usuarios (id, email, password,role,estado) VALUES
-(3, 'profesor1@universidad.com', 'contrasena3','admin',true);
+(3, 'profesor1@universidad.com', '$2b$10$.COHznhUqaTwyi7OAix1ou.uD6XSznTTz9dNx2kOO1g9Xuv1KU2y2','admin',true);
 
-update usuarios set password = '$2b$10$.COHznhUqaTwyi7OAix1ou.uD6XSznTTz9dNx2kOO1g9Xuv1KU2y2' where id= 1;
-update usuarios set estado = true where id= 1;
-
-
-
-SELECT `email`, `createdAt`, `updatedAt` FROM `emails` AS `emails`;
-
-SELECT `id`, `nombre`, `email`, `telefono`, `direccion`, `fecha_nacimiento`, `carrera_id`, `createdAt`, `updatedAt` FROM `estudiantes` AS `estudiante` WHERE `estudiante`.`id` = '2';
-
-SELECT `id`, `email`, `password`, `createdAt`, `updatedAt` FROM `usuarios` AS `usuario` WHERE `usuario`.`id` = '4' AND `usuario`.`password` = 'contra2';
-
-SELECT `id`, `email`, `password`, `role`, `estado`, `createdAt`, `updatedAt` FROM `usuarios` AS `usuario` WHERE `usuario`.`id` = '4' AND `usuario`.`estado` = false;
-
-SELECT `id`, `email`, `password`, `role`, `estado`, `createdAt`, `updatedAt` FROM `usuarios` AS `usuario` WHERE `usuario`.`id` = '4' AND `usuario`.`estado` = true;
-
-update emails set email = "robayotorres05@gmail.com" where email = "robayotorres@gmail.com"; 
-
-INSERT INTO emails (email) VALUES("robayotorres05@gmail.com");
-
+update usuarios set estado = true where id= 2;
+update usuarios set role = "admin" where id= 2;
 
 
