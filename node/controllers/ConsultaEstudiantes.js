@@ -27,3 +27,20 @@ export const getInfoEstudiante = async(req,res)=>{
         res.json({message: error.message})
     }
 }
+
+export const getCursos = async(req,res)=>{
+    try {
+        const cursos = await db.query(
+           `SELECT asignaturas.id,asignaturas.nombre 
+           FROM asignaturas 
+           WHERE asignaturas.id NOT IN (
+               SELECT cursos.asignatura_id 
+               FROM inscripciones 
+               INNER JOIN cursos ON cursos.id = inscripciones.curso_id 
+               WHERE inscripciones.estudiante_id = ${req.params.id}
+           );`)
+           res.json(cursos[0])
+    } catch (error) {
+        res.json({message: error.message})
+    }
+}

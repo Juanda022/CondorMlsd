@@ -39,16 +39,19 @@ export const Register = () =>{
     };
         
     return(
-        <>
-            <h1>Register</h1>
+        <div className="wrapper fadeInDown">
+            <div id="formContent">
+            <h2 className="inactive underlineHover" onClick={login}> Login </h2>
+            <h2 className="active">Register </h2>
+
             <h3>Usurario</h3>
-            <input type= "text" placeholder = "Username..." 
+            <input type= "text-login" placeholder = "Username..." 
             onChange={(e) =>{
                 setid(e.target.value)
             }}/>
 
             <h3>Email</h3>
-            <input type="text" placeholder= "Email..."
+            <input type="text-login" placeholder= "Email..."
             onChange={(e) => {
                 setemail(e.target.value)
             }}/>
@@ -59,9 +62,11 @@ export const Register = () =>{
                 setpassword(e.target.value);
             }}/>
             <h3></h3>
-            <button onClick={register} className='btn btn-primary'>Register</button>
-            <button onClick={login} className='btn btn-primary'>Login</button>
+            <input type="submit" className="fadeIn fourth" value="Register"
+                onClick={register}
+            />
             <h1>{registerStatues}</h1>
-        </> 
+            </div>
+        </div>
     ) 
 }

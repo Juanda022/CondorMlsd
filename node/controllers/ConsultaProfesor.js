@@ -30,3 +30,19 @@ export const getTablaNotasC = async (req,res)=>{
         res.json({message: error.message})
     }
 }
+
+export const getTablaCrearNotas = async (req,res) =>{
+    try{
+        const email = await db.query(`SELECT e.id, e.nombre_e
+        FROM estudiantes e
+        JOIN inscripciones i ON i.estudiante_id = e.id
+        JOIN cursos c ON c.id = i.curso_id
+        LEFT JOIN notas n ON n.estudiante_id = e.id AND n.curso_id = c.id
+        JOIN profesors p ON p.id = c.profesor_id
+        JOIN emails em ON em.email = p.email
+        WHERE n.id IS NULL and p.email = "${req.params.email}";`)
+        res.json(email[0])
+    } catch (error){
+        res.json({message: error.message})
+    }
+}

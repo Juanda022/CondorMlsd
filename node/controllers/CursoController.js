@@ -12,7 +12,7 @@ export const getAllCurso = async (req,res) =>{
 export const getCurso = async (req,res)=>{
     try {
         const CursoIn = await CursoModel.findAll({
-            where:{id:req.params.id}
+            where:{asignatura_id:req.params.id}
         })
         res.json(CursoIn)
     } catch (error) {

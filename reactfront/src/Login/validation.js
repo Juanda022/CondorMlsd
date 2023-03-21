@@ -1,9 +1,6 @@
 import React from "react";
 import { useState , useEffect } from 'react';
 import Axios from 'axios';
-import { useNavigate } from "react-router-dom";
-
-//const URI ="http://localhost:3001/Route"
 
 export const Verify = () =>{
     const[id, setid] = useState("")
@@ -15,8 +12,6 @@ export const Verify = () =>{
     const[fecha_nacimiento, setFecha] = useState("")
     const[carrera_id, setCarrera] = useState("")
     const[loginStatues, setLoginStatus] = useState("")
-
-    const history = useNavigate();
 
     Axios.defaults.withCredentials = true;
 
@@ -47,60 +42,64 @@ export const Verify = () =>{
     };
 
     return(
-        <>
-            <h1>Confirme sus datos para validar</h1>
+        <div className="background">
+            <div className="wrapper fadeInDown">
+                <div id="formContentAmpliado">
+                <h1>Confirme sus datos para validar</h1>
 
-            <h3>Usuario</h3>
-            <input type= "text" placeholder = "Username..." 
-            onChange={(e) =>{
-                setid(e.target.value)
-            }}/>
+                <h3>Usuario</h3>
+                <input type= "text-login" placeholder = "Username..." 
+                onChange={(e) =>{
+                    setid(e.target.value)
+                }}/>
 
-            <h3>Id Estudiante</h3>
-            <input type="text" placeholder= "Id..."
-            onChange={(e) => {
-                setid_Es(e.target.value)
-            }}/>
+                <h3>Id Estudiante</h3>
+                <input type="text-login" placeholder= "Id..."
+                onChange={(e) => {
+                    setid_Es(e.target.value)
+                }}/>
 
-            <h3>Nombre</h3>
-            <input type="text" placeholder= "Nombre..."
-            onChange={(e) => {
-                setNombre(e.target.value)
-            }}/>
+                <h3>Nombre</h3>
+                <input type="text-login" placeholder= "Nombre..."
+                onChange={(e) => {
+                    setNombre(e.target.value)
+                }}/>
 
-            <h3>Email</h3>
-            <input type="text" placeholder= "Email..."
-            onChange={(e) => {
-                setemail(e.target.value)
-            }}/>
+                <h3>Email</h3>
+                <input type="text-login" placeholder= "Email..."
+                onChange={(e) => {
+                    setemail(e.target.value)
+                }}/>
 
-            <h3>Telefono</h3>
-            <input type="text" placeholder= "Telefono..."
-            onChange={(e) => {
-                setTelefono(e.target.value)
-            }}/>
+                <h3>Telefono</h3>
+                <input type="text-login" placeholder= "Telefono..."
+                onChange={(e) => {
+                    setTelefono(e.target.value)
+                }}/>
 
-            <h3>Direccion</h3>
-            <input type="text" placeholder= "Direccion..."
-            onChange={(e) => {
-                setDireccion(e.target.value)
-            }}/>
+                <h3>Direccion</h3>
+                <input type="text-login" placeholder= "Direccion..."
+                onChange={(e) => {
+                    setDireccion(e.target.value)
+                }}/>
 
-            <h3>Fecha de nacimiento</h3>
-            <input type="text" placeholder= "aaaa-mm-dd..."
-            onChange={(e) => {
-                setFecha(e.target.value)
-            }}/>
+                <h3>Fecha de nacimiento</h3>
+                <input type="text-login" placeholder= "aaaa-mm-dd..."
+                onChange={(e) => {
+                    setFecha(e.target.value)
+                }}/>
 
-            <h3>Id Carrera</h3>
-            <input type="text" placeholder= "ID carrera..."
-            onChange={(e) => {
-                setCarrera(e.target.value)
-            }}/>
-            
-            <h3></h3>
-            <button onClick={verify} className='btn btn-primary'>Confirmar</button>
-            <h1>{loginStatues}</h1>
-        </> 
+                <h3>Id Carrera</h3>
+                <input type="text-login" placeholder= "ID carrera..."
+                onChange={(e) => {
+                    setCarrera(e.target.value)
+                }}/>
+                
+                <h3></h3>
+                <button onClick={verify} className='btn btn-primary'>Confirmar</button>
+                <h1>{loginStatues}</h1>
+                </div>
+            </div>
+        </div>
     ) 
 }

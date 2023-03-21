@@ -21,7 +21,9 @@ export const InfoEstudiante = () => {
         }
     }
 
-    const dataEstudiantes =estudiante.length > 0 && estudiante.map((estudiante) => {
+
+    const dataEstudiantes = estudiante.length > 0 && estudiante.map((estudiante) => {
+        localStorage.setItem('id_estudiante', estudiante.id);
         return <p className='container' key={estudiante.id}> 
                     Id: {estudiante.id}<br/>
                     Nombre: {estudiante.nombre_e}<br/>

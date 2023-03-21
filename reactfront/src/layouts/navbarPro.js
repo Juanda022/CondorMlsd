@@ -23,7 +23,7 @@ const NavBarProfe = () =>{
                     </Nav>
                     </Navbar.Collapse> 
 
-                    <button onClick={clearLocalStorage}>Logout</button>
+                    <button onClick={clearLocalStorage} className='btn btn-light'>Logout</button>
                 </Container>
             </Navbar>
             <section>

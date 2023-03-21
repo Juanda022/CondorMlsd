@@ -20,6 +20,7 @@ const NavBarExample = () =>{
                     <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/estu/notas" >Notas</Nav.Link>
+                        <Nav.Link as={Link} to="/estu/cursos" >Cursos</Nav.Link>
                     </Nav>
                     </Navbar.Collapse> 
 

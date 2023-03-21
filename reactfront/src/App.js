@@ -11,6 +11,10 @@ import NavBarExample from './layouts/navbarEs';
 import NavBarProfe from './layouts/navbarPro';
 import { NotaCrs } from './Profesor/notasCrs';
 import { UpdateNota } from './Profesor/editarNota';
+import { SinNota } from './Profesor/crearNotas';
+import { CreateNota } from './Profesor/nuevaNota';
+import { InfoCursos } from './Estudiante/cursos';
+import { InfoGrupos } from './Estudiante/inscribir';
 
 
 function App() {
@@ -27,6 +31,8 @@ function App() {
           <Route path='/estu' element={<NavBarExample/>}>
             <Route index element = {<Saludo/>}/>
             <Route path='/estu/notas' element={<Notas/>}/>
+            <Route path='/estu/cursos' element={<InfoCursos/>}/>
+            <Route path='/estu/grupos' element={<InfoGrupos/>}/>
             <Route path='*' element={<Navigate replace to={"/estu"}/>}/>
           </Route>
 
@@ -35,6 +41,8 @@ function App() {
             <Route path='/prof/cursos' element={<Cursos/>}/>
             <Route path='/prof/notas' element={<NotaCrs/>}/>
             <Route path='/prof/nota' element={<UpdateNota/>}/>
+            <Route path='/prof/estu' element={<SinNota/>}/>
+            <Route path='/prof/crea' element={<CreateNota/>}/>
             <Route path='*' element={<Navigate replace to={"/prof"}/>}/>
           </Route>
 
