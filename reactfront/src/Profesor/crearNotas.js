@@ -7,11 +7,12 @@ import { useNavigate } from "react-router-dom";
 
 export const SinNota = () =>{
     const [email] = useState(localStorage.getItem('email'));
+    const [id_curso] = useState(localStorage.getItem('idCurso'));
     const [SinNota,SetSinNota]=useState([]);
     const history = useNavigate();
 
     useEffect(()=>{
-        const URI = `http://localhost:3001/Route/SinNotas/${email}`;
+        const URI = `http://localhost:3001/Route/SinNotas/${email}/${id_curso}`;
         getTablaSinNotas(URI)
     },[])
 

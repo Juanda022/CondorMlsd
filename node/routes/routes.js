@@ -37,7 +37,7 @@ router.get('/Notas/:email/:id',getTablaNotasC)
 //Modificar notas
 router.put('/UpNota/:id',updateNota)
 //Crear notas
-router.get('/SinNotas/:email',getTablaCrearNotas)
+router.get('/SinNotas/:email/:id',getTablaCrearNotas)
 router.post('/CreaNota',createNota)
 //Eliminar notas
 router.delete('/Eliminar/:id',deleteNota)
